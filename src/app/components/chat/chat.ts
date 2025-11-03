@@ -3,7 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChatService } from '../../services/chat/chat';
-import { Header } from "../header/header";
+import { Header } from '../header/header';
+import { Auth } from '../../services/auth/auth';
 
 interface Message {
   id: number;
@@ -22,16 +23,22 @@ export class Chat {
   inputMessage = '';
   isTyping = false;
   errorMessage = '';
-  messages: Message[] = [
-    {
+  username!: string | undefined;
+  messages: Message[] = [];
+
+  constructor(private chatService: ChatService, private authService: Auth) {}
+
+  ngOnInit() {
+    this.username = this.authService.getUserInfo()?.username;
+    this.messages.push({
       id: 1,
-      text: "Hello! I'm here to listen, talk and support you. How are you feeling today?",
+      text: `Hello ${
+        this.username ?? 'Friend'
+      }! I'm here to listen, talk and support you. How are you feeling today?`,
       sender: 'bot',
       timestamp: new Date(),
-    },
-  ];
-
-  constructor(private chatService: ChatService) {}
+    });
+  }
 
   sendMessage() {
     if (!this.inputMessage.trim() || this.isTyping) return;
