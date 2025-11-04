@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.example.mindhealthai',
-  appName: 'MindHealtAI',
+  appName: 'MindHealthAI',
   webDir: 'dist/emotional-support-chatbot/browser',
 
   plugins: {
